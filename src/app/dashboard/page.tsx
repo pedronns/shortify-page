@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import api from '@/src/lib/api'
-import type { Link } from '@/types/index'
+import type { Link } from 'next/link'
+import type { Image } from 'next/image'
 import {
   LogOut,
   Trash2,
@@ -10,13 +11,27 @@ import {
   Lock,
   Calendar,
   ExternalLink,
+  ArrowRight,
+  ArrowLeft,
 } from 'lucide-react'
+
+const errorMessages: Record<string, string> = {
+  INVALID_CREDENTIALS: 'Senha incorreta. Tente novamente.',
+  EMAIL_TAKEN: 'E-mail já cadastrado.',
+  INVALID_EMAIL: 'E-mail inválido.',
+  PASSWORD_TOO_SHORT: 'A senha deve ter pelo menos 6 caracteres.',
+}
+
+import { Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Dashboard() {
   const [token, setToken] = useState<string | null>(null)
   const [isRegister, setIsRegister] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
 
   const [links, setLinks] = useState<Link[]>([])
@@ -53,7 +68,13 @@ export default function Dashboard() {
       setToken(jwt)
       fetchUserLinks()
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro na autenticação.')
+      const message = err.response?.data?.message
+
+      if (Array.isArray(message)) {
+        setError(message.map((m) => errorMessages[m] ?? m).join(' '))
+      } else {
+        setError(errorMessages[message] ?? message ?? 'Erro na autenticação.')
+      }
     }
   }
 
@@ -77,6 +98,26 @@ export default function Dashboard() {
   if (!token) {
     return (
       <div className='max-w-md mx-auto w-full px-4 py-24 flex-1 flex flex-col justify-center'>
+        <div className='flex justify-between items-center mb-8'>
+          <Link
+            href='/'
+            className='text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors flex items-center gap-1'
+          >
+            <ArrowLeft className='w-3 h-3' /> Home
+          </Link>
+          <div className='flex items-center gap-2'>
+            <Image
+              src='/images/logo.png'
+              alt='logo'
+              loading='eager'
+              width={32}
+              height={32}
+            />
+            <span className='font-bold text-xl tracking-tight'>
+              Shortify<span className='text-blue-600'>.</span>
+            </span>
+          </div>
+        </div>
         <div className='bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm'>
           <h2 className='text-lg font-bold text-zinc-900 mb-1'>
             {isRegister ? 'Criar nova conta' : 'Acessar Dashboard'}
@@ -107,13 +148,26 @@ export default function Dashboard() {
               <label className='block text-xs font-medium text-zinc-500 mb-1'>
                 Senha
               </label>
-              <input
-                type='password'
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className='w-full px-3 py-2 text-sm bg-zinc-50 text-gray-800 border border-zinc-200 rounded-lg focus:outline-none focus:border-blue-500'
-              />
+              <div className='relative'>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder={showPassword ? 'suasenha' : '••••••••'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className='w-full px-3.5 py-2 pr-10 text-sm bg-zinc-50 border text-gray-800 placeholder-gray-400 border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all'
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowPassword((v) => !v)}
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer'
+                >
+                  {showPassword ? (
+                    <EyeOff className='w-4 h-4' />
+                  ) : (
+                    <Eye className='w-4 h-4' />
+                  )}
+                </button>
+              </div>
             </div>
             <button
               type='submit'
@@ -123,16 +177,24 @@ export default function Dashboard() {
             </button>
           </form>
 
-          {error && <p className='mt-3 text-xs text-red-600'>{error}</p>}
+          {error && (
+            <p className='mt-3 text-xs text-red-600'>
+              {errorMessages[error] ?? error}
+            </p>
+          )}
 
-          <button
-            onClick={() => setIsRegister(!isRegister)}
-            className='w-full text-center text-xs text-zinc-500 hover:text-zinc-900 mt-4 transition-colors block'
-          >
-            {isRegister
-              ? 'Já tem conta? Faça Login'
-              : 'Não tem conta? Cadastre-se'}
-          </button>
+          <div className='mt-4 flex items-center justify-center gap-1 text-xs'>
+            <span className='text-zinc-500'>
+              {isRegister ? 'Já tem conta?' : 'Não tem conta?'}
+            </span>
+
+            <button
+              onClick={() => setIsRegister(!isRegister)}
+              className='font-bold text-blue-500 hover:text-blue-900 transition-colors cursor-pointer'
+            >
+              {isRegister ? 'Entrar' : 'Cadastre-se'}
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -173,20 +235,30 @@ export default function Dashboard() {
             >
               <div className='space-y-1 min-w-0 flex-1'>
                 <div className='flex items-center gap-2'>
-                  <span className='font-semibold text-sm text-zinc-900'>
+                  <span className='font-semibold text-sm text-blue-500'>
                     /{link.code}
                   </span>
                   {link.protected && (
-                    <Lock
-                      className='w-3 h-3 text-amber-500'
-                      title='Protegido por senha'
-                    />
+                    <div title='Protegido por senha'>
+                      <Lock className='w-3 h-3 text-amber-500' />
+                    </div>
                   )}
                   {link.expiresAt && (
-                    <Calendar
-                      className='w-3 h-3 text-blue-500'
-                      title={`Expira em: ${new Date(link.expiresAt).toLocaleDateString()}`}
-                    />
+                    <div
+                      title={
+                        new Date(link.expiresAt) < new Date()
+                          ? `Expirou em: ${new Date(link.expiresAt).toLocaleString('pt-BR')}`
+                          : `Expira em: ${new Date(link.expiresAt).toLocaleString('pt-BR')}`
+                      }
+                    >
+                      <Calendar
+                        className={`w-3 h-3 ${
+                          new Date(link.expiresAt) < new Date()
+                            ? 'text-red-500'
+                            : 'text-blue-500'
+                        }`}
+                      />
+                    </div>
                   )}
                 </div>
                 <p className='text-xs text-zinc-400 truncate max-w-md'>

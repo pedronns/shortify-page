@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import api from '@/src/lib/api'
-import { Link2, Copy, Check, ArrowRight, Settings } from 'lucide-react'
+import { Copy, Check, ArrowRight, Settings } from 'lucide-react'
 import { QrCodeModal } from '../components/QrCodeModal'
-import Switch from '../components/ui/Switch'
 import { Eye, EyeOff } from 'lucide-react'
 
 export default function Home() {
@@ -14,8 +14,6 @@ export default function Home() {
   const [password, setPassword] = useState('')
   const [expiresAt, setExpiresAt] = useState('')
   const [showAdvanced, setShowAdvanced] = useState(false)
-
-  const [qrEnabled, setQrEnabled] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -66,7 +64,12 @@ export default function Home() {
     <main className='max-w-xl mx-auto w-full px-4 pt-24 pb-12 flex-1 flex flex-col justify-center'>
       <div className='flex justify-between items-center mb-8'>
         <div className='flex items-center gap-2'>
-          <Link2 className='w-6 h-6 text-blue-600' />
+          <Image
+            src='/images/logo.png'
+            alt='logo'
+            width={32}
+            height={32}
+          />
           <span className='font-bold text-xl tracking-tight'>
             Shortify<span className='text-blue-600'>.</span>
           </span>
@@ -145,7 +148,7 @@ export default function Home() {
                     <button
                       type='button'
                       onClick={() => setShowPassword((v) => !v)}
-                      className='absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors'
+                      className='absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer'
                     >
                       {showPassword ? (
                         <EyeOff className='w-4 h-4' />
@@ -166,19 +169,7 @@ export default function Home() {
                     className='w-full px-3.5 py-2 text-sm text-gray-800 bg-zinc-50 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-zinc-500'
                   />
                 </div>
-                <div className='flex items-center justify-between rounded-lg border border-zinc-200 p-3 col-span-2'>
-                  <label className='text-xs font-medium text-zinc-500'>
-                    Gerar QR Code
-                  </label>
-
-                  <Switch
-                    checked={qrEnabled}
-                    onChange={setQrEnabled}
-                  />
-                </div>
               </div>
-
-              {/* Color configuration moved inside the QR modal to avoid duplicating inputs */}
             </div>
           )}
 
@@ -216,6 +207,7 @@ export default function Home() {
               <button
                 onClick={copyToClipboard}
                 className='p-2 bg-white hover:bg-zinc-50 border border-zinc-200 rounded-lg transition-colors text-zinc-600'
+                title='Copiar'
               >
                 {copied ? (
                   <Check className='w-4 h-4 text-green-600' />
@@ -224,15 +216,13 @@ export default function Home() {
                 )}
               </button>
 
-              {qrEnabled && <QrCodeModal url={shortenedUrl} />}
+              <QrCodeModal url={shortenedUrl} />
             </div>
           </div>
         )}
       </div>
 
-      <p className='text-center text-[11px] text-zinc-400 mt-8'>
-        Shortify v2 • © Pedro Nunes
-      </p>
+      
     </main>
   )
 }
