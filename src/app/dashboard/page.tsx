@@ -31,7 +31,9 @@ export default function Dashboard() {
   const [isRegister, setIsRegister] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
 
   const [links, setLinks] = useState<Link[]>([])
@@ -69,6 +71,11 @@ export default function Dashboard() {
       fetchUserLinks()
     } catch (err: any) {
       const message = err.response?.data?.message
+
+      if (isRegister && password !== confirmPassword) {
+        setError('As senhas não coincidem. Tente novamente.')
+        return
+      }
 
       if (Array.isArray(message)) {
         setError(message.map((m) => errorMessages[m] ?? m).join(' '))
@@ -169,11 +176,39 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
+            {isRegister && (
+              <div>
+                <label className='block text-xs font-medium text-zinc-500 mb-1'>
+                  Confirme a senha
+                </label>
+                <div className='relative'>
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder={showConfirmPassword ? 'suasenha' : '••••••••'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className='w-full px-3.5 py-2 pr-10 text-sm bg-zinc-50 border text-gray-800 placeholder-gray-400 border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all'
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    className='absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer'
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className='w-4 h-4' />
+                    ) : (
+                      <Eye className='w-4 h-4' />
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <button
               type='submit'
               className='w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2 px-4 rounded-lg transition-colors'
             >
-              {isRegister ? 'Registrar' : 'Entrar'}
+              {isRegister ? 'Cadastrar' : 'Entrar'}
             </button>
           </form>
 
