@@ -1,6 +1,6 @@
-# Shortify Page
+# Shortify
 
-Shortify Page é uma aplicação Next.js para encurtar URLs rapidamente e gerar QR codes. O projeto inclui:
+Shortify é uma aplicação Next.js para encurtar URLs rapidamente e gerar QR codes. O projeto inclui:
 
 - Página de encurtamento de link com suporte a URL customizada
 - Opções avançadas: código customizado, senha e data de expiração
