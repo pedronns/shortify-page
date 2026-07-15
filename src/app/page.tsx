@@ -76,7 +76,7 @@ export default function Home() {
         </div>
         <Link
           href='/dashboard'
-          className='text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors flex items-center gap-1'
+          className='text-xs font-medium text-zinc-500 hover:text-zinc-400 transition-colors flex items-center gap-1'
         >
           Dashboard <ArrowRight className='w-3 h-3' />
         </Link>
@@ -99,21 +99,10 @@ export default function Home() {
               onChange={(e) => setUrl(e.target.value)}
               className='w-full px-3.5 py-2 text-sm bg-zinc-50 border text-gray-800 placeholder-gray-400 border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all'
             />
-          </div>
-
-          <button
-            type='button'
-            onClick={() => setShowAdvanced(!showAdvanced)}
-            className='text-xs text-zinc-500 hover:text-blue-600 flex items-center gap-1 transition-colors'
-          >
-            <Settings className='w-3.5 h-3.5' />
-            {showAdvanced
-              ? 'Ocultar opções avançadas'
-              : 'Mostrar opções avançadas'}
-          </button>
+          </div> 
 
           {showAdvanced && (
-            <div className='pt-2 border-t border-dashed border-zinc-100 space-y-4'>
+            <div className=' border-zinc-100 space-y-4'>
               <div>
                 <label className='block text-xs font-medium text-zinc-500 mb-1.5'>
                   Link Customizado (Opcional)
@@ -174,6 +163,17 @@ export default function Home() {
           )}
 
           <button
+            type='button'
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className='text-xs text-zinc-500 hover:text-blue-600 flex items-center gap-1 transition-colors'
+          >
+            <Settings className='w-3.5 h-3.5' />
+            {showAdvanced
+              ? 'Ocultar opções avançadas'
+              : 'Mostrar opções avançadas'}
+          </button>
+
+          <button
             type='submit'
             disabled={loading}
             className='w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-sm py-2.5 px-4 rounded-lg transition-colors disabled:opacity-50'
@@ -221,8 +221,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
-      
     </main>
   )
 }

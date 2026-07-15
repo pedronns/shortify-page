@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import api from '@/src/lib/api'
-import type { Link } from 'next/link'
-import type { Image } from 'next/image'
 import {
   LogOut,
   Trash2,
   BarChart3,
   Lock,
   Calendar,
+  Eye,
+  EyeOff,
   ExternalLink,
   ArrowRight,
   ArrowLeft,
@@ -22,7 +22,7 @@ const errorMessages: Record<string, string> = {
   PASSWORD_TOO_SHORT: 'A senha deve ter pelo menos 6 caracteres.',
 }
 
-import { Eye, EyeOff } from 'lucide-react'
+import {} from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -241,16 +241,26 @@ export default function Dashboard() {
       <div className='flex justify-between items-center mb-8 border-b border-zinc-200 pb-4'>
         <div>
           <h1 className='text-xl font-bold tracking-tight'>Seus Links</h1>
+
           <p className='text-xs text-zinc-500'>
             Gerenciamento e monitoramento de cliques
           </p>
         </div>
-        <button
-          onClick={handleLogout}
-          className='flex items-center gap-1 text-xs text-red-500 hover:bg-red-50 px-2.5 py-1.5 rounded-lg border border-transparent hover:border-red-100 transition-all'
-        >
-          <LogOut className='w-3.5 h-3.5' /> Sair
-        </button>
+
+        <div className='flex justify-between items-center gap-1'>
+          <Link
+            href={'/'}
+            className='flex items-center gap-1 text-xs text-gray-500 hover:bg-gray-100 px-2.5 py-1.5 rounded-lg border border-transparent hover:border-gray-500 transition-all'
+          >
+            <ArrowLeft className='w-3.5 h-3.5' /> Home
+          </Link>
+          <button
+            onClick={handleLogout}
+            className='flex items-center gap-1 text-xs text-red-500 hover:bg-red-50 px-2.5 py-1.5 rounded-lg border border-transparent hover:border-red-100 transition-all cursor-pointer'
+          >
+            <LogOut className='w-3.5 h-3.5' /> Sair
+          </button>
+        </div>
       </div>
 
       {loadingLinks ? (
@@ -304,7 +314,9 @@ export default function Dashboard() {
               <div className='flex items-center gap-4 flex-shrink-0 justify-between sm:justify-end border-t sm:border-0 pt-2 sm:pt-0 border-zinc-100'>
                 <div className='flex items-center gap-1 text-zinc-600 bg-zinc-100 px-2 py-1 rounded-md text-xs font-medium'>
                   <BarChart3 className='w-3.5 h-3.5 text-zinc-400' />
-                  <span>{link.clicks} cliques</span>
+                  <span>
+                    {link.clicks} {link.clicks > 1 ? 'cliques' : 'clique'}
+                    </span>
                 </div>
 
                 <div className='flex items-center gap-1'>

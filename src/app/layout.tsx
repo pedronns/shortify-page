@@ -21,10 +21,10 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${inter.className} bg-zinc-50 text-zinc-900 antialiased min-h-screen flex flex-col justify-between`}>
         {children}
-      </body>
       <p className='text-center text-[11px] text-zinc-400 mt-8 mb-2'>
         Shortify v2 • © Pedro Nunes
       </p>
+      </body>
     </html>
   );
 }

@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { Eye, EyeOff } from 'lucide-react'
 import { isAxiosError } from 'axios'
@@ -87,11 +89,20 @@ export default function UnlockPage() {
   return (
     <div className='max-w-md mx-auto w-full px-4 py-24 flex-1 flex flex-col justify-center'>
       <div className='flex justify-between items-center mb-8'>
-        <div className='flex items-center gap-2'>
+        <Link
+          className='flex items-center gap-2'
+          href='/'
+        >
+          <Image
+            src='/images/logo.png'
+            alt='logo'
+            width={32}
+            height={32}
+          />
           <span className='font-bold text-xl tracking-tight'>
             Shortify<span className='text-blue-600'>.</span>
           </span>
-        </div>
+        </Link>
       </div>
 
       <div className='bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm'>
