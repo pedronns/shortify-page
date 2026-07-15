@@ -11,7 +11,6 @@ import {
   Eye,
   EyeOff,
   ExternalLink,
-  ArrowRight,
   ArrowLeft,
 } from 'lucide-react'
 
@@ -22,7 +21,6 @@ const errorMessages: Record<string, string> = {
   PASSWORD_TOO_SHORT: 'A senha deve ter pelo menos 6 caracteres.',
 }
 
-import {} from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 

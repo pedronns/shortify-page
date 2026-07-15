@@ -1,7 +1,5 @@
 'use client'
 
-import Switch from './ui/Switch'
-
 type Props = {
   enabled: boolean
   setEnabled: (enabled: boolean) => void
@@ -13,7 +11,6 @@ type Props = {
 
 export default function ConfigQrCode({
   enabled,
-  setEnabled,
   primaryColor,
   setPrimaryColor,
   backgroundColor,
