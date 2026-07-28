@@ -102,7 +102,7 @@ export default function Home() {
           </div> 
 
           {showAdvanced && (
-            <div className=' border-zinc-100 space-y-4'>
+            <div className='border-zinc-100 space-y-4'>
               <div>
                 <label className='block text-xs font-medium text-zinc-500 mb-1.5'>
                   Link Customizado (Opcional)
@@ -155,7 +155,7 @@ export default function Home() {
                     type='datetime-local'
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    className='w-full px-3.5 py-2 text-sm text-gray-800 bg-zinc-50 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-zinc-500'
+                    className='w-full px-3.5 py-2 text-sm text-zinc-500 bg-zinc-50 border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all'
                   />
                 </div>
               </div>

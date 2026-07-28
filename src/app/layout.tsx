@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Shortify v2',
+  title: 'Shortify',
   description: 'Encurtador de links minimalista e veloz',
   icons: {
     icon: '/images/logo.png'

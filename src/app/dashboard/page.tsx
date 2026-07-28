@@ -309,7 +309,7 @@ export default function Dashboard() {
                 </p>
               </div>
 
-              <div className='flex items-center gap-4 flex-shrink-0 justify-between sm:justify-end border-t sm:border-0 pt-2 sm:pt-0 border-zinc-100'>
+              <div className='flex items-center gap-4 shrink-0 justify-between sm:justify-end border-t sm:border-0 pt-2 sm:pt-0 border-zinc-100'>
                 <div className='flex items-center gap-1 text-zinc-600 bg-zinc-100 px-2 py-1 rounded-md text-xs font-medium'>
                   <BarChart3 className='w-3.5 h-3.5 text-zinc-400' />
                   <span>
