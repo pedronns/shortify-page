@@ -13,6 +13,14 @@ import {
   ExternalLink,
   ArrowLeft,
 } from 'lucide-react'
+interface ShortLink {
+  id: number
+  code: string
+  url: string
+  clicks: number
+  protected: boolean
+  expiresAt: string | null
+}
 
 const errorMessages: Record<string, string> = {
   INVALID_CREDENTIALS: 'Senha incorreta. Tente novamente.',
@@ -34,7 +42,7 @@ export default function Dashboard() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
 
-  const [links, setLinks] = useState<Link[]>([])
+  const [links, setLinks] = useState<ShortLink[]>([])
   const [loadingLinks, setLoadingLinks] = useState(false)
 
   useEffect(() => {
